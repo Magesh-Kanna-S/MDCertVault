@@ -1,0 +1,102 @@
+<!-- =================================================================
+     My Desktop CertVault — certificate template
+     ----------------------------------------------------------------
+     Placeholders (filled from the CSV/Sheet row):
+       {{cert_id}}                8-char hex certificate ID
+       {{recipient_name}}         Full name of the recipient
+       {{email}}                  Recipient email (not shown on cert)
+       {{course_name}}            Course / program name
+       {{issue_date_display}}     Formatted issue date (e.g. "April 2026")
+       {{issuer_name}}            Issuing organization name
+       {{issuer_title}}           Issuing organization tagline
+       {{sign1_file_name}}        File name of signature 1 image
+       {{sign1_person_name}}      Display name under signature 1
+       {{sign1_designation}}      Designation / title under signature 1
+       {{sign2_file_name}}        File name of signature 2 image
+       {{sign2_person_name}}      Display name under signature 2
+       {{sign2_designation}}      Designation / title under signature 2
+       {{verify_url}}             Public verification URL
+     ================================================================= -->
+<div class="certificate">
+  <div class="certificate-inner">
+
+    <!-- ===== Header: logo + ID badge ===== -->
+    <div class="cert-header">
+      <img class="cert-logo"
+           src="../branding/logo.png"
+           alt="Organization logo"
+           data-logo
+           onerror="this.style.display='none'">
+      <div class="cert-id-badge">Certificate ID: {{cert_id}}</div>
+    </div>
+
+    <!-- ===== Title block ===== -->
+    <div class="cert-title-block">
+      <div class="cert-eyebrow">Certificate of Completion</div>
+      <h1 class="cert-title">Certificate of Achievement</h1>
+      <p class="cert-subtitle">This certificate is proudly presented to</p>
+    </div>
+
+    <!-- ===== Recipient block ===== -->
+    <div class="cert-recipient-block">
+      <div class="cert-recipient">{{recipient_name}}</div>
+      <div class="cert-recipient-line"></div>
+    </div>
+
+    <!-- ===== Course block ===== -->
+    <div class="cert-course-block">
+      <div class="cert-course-line">for successfully completing the course</div>
+      <div class="cert-course">{{course_name}}</div>
+    </div>
+
+    <!-- ===== Description block ===== -->
+    <div class="cert-description">
+      This certificate is awarded in recognition of the recipient's dedication, active participation,
+      and successful fulfillment of all course requirements as assessed by the issuing authority.
+    </div>
+
+    <!-- ===== Issued-by block: date + organization + tagline ===== -->
+    <div class="cert-issued-block">
+      <div class="cert-issued-date">Issued on {{issue_date_display}}</div>
+      <div class="cert-issuer-name">{{issuer_name}}</div>
+      <div class="cert-issuer-title">{{issuer_title}}</div>
+    </div>
+
+    <!-- ===== Footer: two signatures side-by-side (no QR) ===== -->
+    <div class="cert-footer cert-footer-no-qr">
+
+      <div class="cert-signature-block left">
+        <img class="cert-signature"
+             src="../branding/signatures/signature-1.svg"
+             alt="Signature of {{sign1_person_name}}"
+             data-signature-1
+             onerror="this.style.display='none'">
+        <div class="cert-signature-line"></div>
+        <div class="cert-issuer-name">{{sign1_person_name}}</div>
+        <div class="cert-issuer-title">{{sign1_designation}}</div>
+      </div>
+
+      <!-- Center seal / official mark (replaces the QR code) -->
+      <div class="cert-seal">
+        <img class="cert-seal-logo"
+             src="../branding/logo.png"
+             alt="Official seal"
+             onerror="this.style.display='none'">
+        <div class="cert-seal-text">Officially Issued</div>
+      </div>
+
+      <div class="cert-signature-block right">
+        <img class="cert-signature"
+             src="../branding/signatures/signature-2.svg"
+             alt="Signature of {{sign2_person_name}}"
+             data-signature-2
+             onerror="this.style.display='none'">
+        <div class="cert-signature-line"></div>
+        <div class="cert-issuer-name">{{sign2_person_name}}</div>
+        <div class="cert-issuer-title">{{sign2_designation}}</div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

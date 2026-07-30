@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Verify a Certificate — My Desktop CertVault</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/certificate.css">
+  <link rel="stylesheet" href="../branding/brand.css">
+  <link rel="icon" type="image/png" href="../branding/logo.png">
+</head>
+<body>
+<div class="site-shell">
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="brand" href="../">
+        <div class="brand-mark" id="brand-mark">
+          <img src="../branding/logo.png" alt="My Desktop CertVault logo">
+        </div>
+        <div class="brand-copy">
+          <h1 class="brand-title" id="brand-title">My Desktop CertVault</h1>
+          <div class="brand-subtitle" id="brand-subtitle">Certificate Studio</div>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <!-- ============================================
+         FORM VIEW — shown when no ?id= or ?email= param
+         ============================================ -->
+    <section id="form-view" class="center-shell">
+      <div class="hero-card stack cert-form-card">
+        <div class="cert-form-header">
+          <div class="eyebrow">Public Verification</div>
+          <h2 class="page-title cert-form-title">Verify a Certificate</h2>
+        </div>
+        <p class="page-subtitle cert-form-subtitle">
+          Enter either a certificate ID or an email address to confirm authenticity and review matching certificate records.
+        </p>
+        <form id="verify-form" class="stack" style="max-width:480px;margin:0 auto;width:100%;">
+          <input class="input" type="text" name="q" id="verify-input"
+                 placeholder="Enter certificate ID or email address" required
+                 autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button class="button-secondary" type="submit">Verify Certificate</button>
+        </form>
+        <div id="form-error" class="alert alert-error" style="display:none;"></div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         RESULTS VIEW — multiple matches (?email=)
+         ============================================ -->
+    <section id="results-view" class="center-shell" style="display:none;">
+      <div class="hero-card stack" style="max-width:860px;margin:0 auto;text-align:center;">
+        <div class="eyebrow">Multiple Matches</div>
+        <h2 class="page-title cert-form-title">Certificates Found</h2>
+        <p class="page-subtitle cert-form-subtitle" id="results-summary"></p>
+        <div class="table-shell">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Date</th>
+                <th>Certificate ID</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="results-tbody"></tbody>
+          </table>
+        </div>
+        <div class="button-row" style="justify-content:center;">
+          <a class="button-ghost" href="./">Verify Another</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         NOT FOUND VIEW
+         ============================================ -->
+    <section id="notfound-view" class="center-shell" style="display:none;">
+      <div class="hero-card stack" style="max-width:560px;margin:24px auto;text-align:center;">
+        <div class="eyebrow accent-red">Not Found</div>
+        <h2 class="page-title cert-form-title">No Certificate Found</h2>
+        <p class="page-subtitle cert-form-subtitle" id="notfound-message">
+          We could not find a certificate matching the ID or email you entered. Please check your input and try again.
+        </p>
+        <div class="button-row" style="justify-content:center;">
+          <a class="button-ghost" href="./">Try Another Search</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         CERTIFICATE VIEW — single certificate (?id=)
+         ============================================ -->
+    <section id="cert-view" style="display:none;">
+      <div class="button-row cert-action-bar">
+        <a class="button-ghost" href="./">&larr; Back to Search</a>
+        <button class="button" id="download-btn">Download Certificate</button>
+      </div>
+
+      <!-- The certificate is rendered as an IMAGE here (not live HTML).
+           This ensures identical appearance on desktop and mobile. -->
+      <div id="certificate-root" class="certificate-image-frame"></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Third-party lib: html2canvas only (no jsPDF needed — PNG-only downloads) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" async></script>
+
+<!-- App scripts -->
+<script src="../js/config.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/render.js"></script>
+<script src="../js/download.js"></script>
+<script src="../js/verify.js"></script>
+</body>
+</html>

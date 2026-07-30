@@ -1,0 +1,373 @@
+/* =================================================================
+   My Desktop CertVault — certificate.css
+   Certificate visual + print/PDF/PNG styles.
+
+   Design goals:
+   1. Use the four Google colors (#4285F4, #DB4437, #F4B400, #0F9D58)
+      as a coherent palette so the certificate matches the site header
+      and the brand mark.
+   2. Keep the certificate on a single A4-landscape page when exported
+      to PDF (locked via aspect-ratio: 1123/794).
+   3. Support TWO signature blocks side-by-side, each loaded from a
+      per-row file name in /branding/signatures/.
+   4. Balanced vertical rhythm — content distributes evenly across the
+      page using flexbox, with NO large empty gap before the footer.
+   ================================================================= */
+
+/* ---- Frame that holds the certificate on the verify page ---- */
+.certificate-frame {
+  /* A4 landscape at 96dpi = 1123 x 794 px. */
+  max-width: 1123px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---- Certificate card ---- */
+.certificate {
+  position: relative;
+  border-radius: 18px;
+  /* 4-color stripe border, drawn as the element background (the white
+     inner panel sits on top via ::before, leaving only 3px of stripe
+     visible as the frame). */
+  padding: 3px;
+  box-shadow: 0 24px 60px rgba(66, 133, 244, 0.16);
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1123 / 794;
+  display: flex;
+  flex-direction: column;
+  background:
+    linear-gradient(135deg,
+      var(--g-blue)   0%, var(--g-blue)   25%,
+      var(--g-red)    25%, var(--g-red)    50%,
+      var(--g-yellow) 50%, var(--g-yellow) 75%,
+      var(--g-green)  75%, var(--g-green)  100%);
+}
+
+/* White inner panel that sits inside the 4-color border */
+.certificate::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background:
+    radial-gradient(circle at top right, rgba(244, 180, 0, 0.05), transparent 42%),
+    radial-gradient(circle at bottom left, rgba(15, 157, 88, 0.05), transparent 42%),
+    linear-gradient(135deg, #ffffff 0%, #f6f9ff 100%);
+  border-radius: 16px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Decorative corner ornaments — drawn in the 4 colors, one per corner */
+.certificate::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 12px;
+  background:
+    linear-gradient(to right,  var(--g-blue)   0 36px, transparent 36px) top left/36px 3px no-repeat,
+    linear-gradient(to bottom, var(--g-blue)   0 36px, transparent 36px) top left/3px 36px no-repeat,
+    linear-gradient(to left,   var(--g-red)    0 36px, transparent 36px) top right/36px 3px no-repeat,
+    linear-gradient(to bottom, var(--g-red)    0 36px, transparent 36px) top right/3px 36px no-repeat,
+    linear-gradient(to left,   var(--g-yellow) 0 36px, transparent 36px) bottom right/36px 3px no-repeat,
+    linear-gradient(to top,    var(--g-yellow) 0 36px, transparent 36px) bottom right/3px 36px no-repeat,
+    linear-gradient(to right,  var(--g-green)  0 36px, transparent 36px) bottom left/36px 3px no-repeat,
+    linear-gradient(to top,    var(--g-green)  0 36px, transparent 36px) bottom left/3px 36px no-repeat;
+  opacity: 0.85;
+}
+
+.certificate-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  /* Compact horizontal padding; vertical padding tuned so the layout
+     fills the page evenly without large empty gaps. */
+  padding: 30px 64px 26px;
+  min-height: 0;
+}
+
+/* ---- Header ---- */
+.cert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 18px;
+}
+.cert-logo {
+  /* Logo on a clean white rounded tile so a transparent PNG is fully
+     visible (no 4-color gradient bleeding through). */
+  height: 64px;
+  width: 64px;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 6px;
+  border: 1px solid var(--line);
+}
+.cert-id-badge {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(66, 133, 244, 0.10);
+  padding: 7px 14px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+  border: 1px solid rgba(66, 133, 244, 0.20);
+}
+
+/* ---- Title block ---- */
+.cert-title-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+.cert-eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--g-red);
+  font-weight: 700;
+}
+.cert-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 46px;
+  margin: 0;
+  color: var(--primary-strong);
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+}
+.cert-subtitle {
+  font-size: 15px;
+  color: var(--text-soft);
+  margin: 4px 0 0;
+  font-style: italic;
+}
+
+/* ---- Recipient block ---- */
+.cert-recipient-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.cert-recipient {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 44px;
+  color: var(--text);
+  line-height: 1.1;
+  padding: 0 36px 6px;
+  text-align: center;
+}
+.cert-recipient-line {
+  width: 360px;
+  max-width: 70%;
+  height: 3px;
+  background: linear-gradient(90deg,
+      var(--g-blue), var(--g-red), var(--g-yellow), var(--g-green));
+  border-radius: 2px;
+}
+
+/* ---- Course block ---- */
+.cert-course-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.cert-course-line {
+  font-size: 16px;
+  color: var(--text);
+}
+.cert-course {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  color: var(--primary-strong);
+  font-style: italic;
+  line-height: 1.2;
+  max-width: 80%;
+}
+
+/* ---- Description block (short paragraph that fills the middle) ---- */
+.cert-description {
+  max-width: 78%;
+  margin: 0 auto 16px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-soft);
+  font-style: italic;
+}
+
+/* ---- Issued-by block ---- */
+.cert-issued-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: auto;   /* pushes footer to the bottom of the page */
+  padding-top: 6px;
+}
+.cert-issued-date {
+  font-size: 13px;
+  color: var(--text-soft);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.cert-issued-block .cert-issuer-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  color: var(--text);
+  font-weight: 700;
+}
+.cert-issued-block .cert-issuer-title {
+  font-size: 13px;
+  color: var(--text-soft);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---- Footer with two signatures + centered QR ---- */
+.cert-footer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 24px;
+  width: 100%;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.cert-signature-block {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 96px;
+  justify-content: flex-end;
+}
+.cert-signature-block.left  { align-items: flex-start; text-align: left;  }
+.cert-signature-block.right { align-items: flex-end;   text-align: right; }
+
+.cert-signature {
+  height: 48px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+  margin-bottom: 2px;
+  filter: opacity(0.92);
+}
+.cert-signature-line {
+  width: 80%;
+  height: 1px;
+  background: var(--text-soft);
+  opacity: 0.5;
+  margin: 4px 0 4px;
+}
+.cert-signature-block.left  .cert-signature-line { background: var(--g-blue);  opacity: 0.7; }
+.cert-signature-block.right .cert-signature-line { background: var(--g-green); opacity: 0.7; }
+
+/* Person name + designation under each signature (overrides the
+   issuer-name / issuer-title rules above by being more specific) */
+.cert-signature-block .cert-issuer-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 600;
+}
+.cert-signature-block .cert-issuer-title {
+  font-size: 11px;
+  color: var(--text-soft);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.cert-qr-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.cert-qr {
+  width: 78px; height: 78px;
+  background: white;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.cert-qr-label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+/* ---- Center seal (used in v2 where the QR code is removed) ---- */
+/* A circular embossed-style mark in the middle of the footer that
+   shows the issuer's logo and an "Officially Issued" caption. */
+.cert-seal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 0 8px;
+  min-height: 96px;
+}
+.cert-seal-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 50%;
+  padding: 6px;
+  border: 2px solid;
+  border-image: linear-gradient(135deg,
+      var(--g-blue), var(--g-red), var(--g-yellow), var(--g-green)) 1;
+  box-shadow: 0 6px 16px rgba(66, 133, 244, 0.18);
+}
+.cert-seal-text {
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+/* ---- Print / PDF ----
+   The certificate element is locked to A4-landscape aspect ratio
+   via `aspect-ratio: 1123/794`, and html2canvas is configured to
+   render at the element's natural size, so the PDF always lands on
+   exactly one A4-landscape page. */
+@media print {
+  body { background: white !important; }
+  .site-header, .button-row, .site-shell::before { display: none !important; }
+  .certificate-frame { padding: 0; max-width: none; }
+  .certificate {
+    box-shadow: none;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  @page { size: A4 landscape; margin: 0; }
+}
+
+/* ---- Loading state ---- */
+.cert-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+  color: var(--text-soft);
+}

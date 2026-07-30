@@ -1,0 +1,7 @@
+<!-- Sample signature 2. Replace this SVG with your actual handwritten signature.
+     Recommended: ~220×64 px, dark ink (#1a3a3a), transparent background.
+     File name is referenced from the `sign2_file_name` column in your CSV/Sheet. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" width="220" height="64">
+  <path d="M 8 38 Q 24 18, 40 36 T 78 30 Q 96 14, 118 40 T 158 28 Q 178 16, 198 38 Q 208 30, 216 36"
+        stroke="#1a3a3a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
